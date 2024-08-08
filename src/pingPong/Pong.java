@@ -38,7 +38,7 @@ public class Pong {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.BLACK);
-		frame.setBounds(100, 100, 800, 520);
+		frame.setBounds(100, 100, 800, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 		frame.setLocationRelativeTo(null);

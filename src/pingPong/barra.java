@@ -34,7 +34,7 @@ public class Barra {
 	}
 	
 	public void paint(Graphics g) {
-        ImageIcon barra = new ImageIcon(getClass().getResource("../imagenes/pelota.png"));
+        ImageIcon barra = new ImageIcon(getClass().getResource("../imagenes/barra.png"));
         g.drawImage(barra.getImage(), x, y, 100, 100, null);
     }
 	
