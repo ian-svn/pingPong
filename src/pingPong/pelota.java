@@ -1,5 +1,5 @@
 package pingPong;
 
-public class pelota {
+public class Pelota {
 	
 }

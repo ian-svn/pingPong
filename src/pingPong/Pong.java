@@ -3,6 +3,7 @@ package pingPong;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import java.awt.Color;
 
 public class Pong {
 
@@ -36,11 +37,14 @@ public class Pong {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.BLACK);
 		frame.setBounds(100, 100, 800, 520);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		
+		Barra barraIzq = new Barra("Izq");
+		Barra barraDer = new Barra("Der");
 		
 		
 	}
