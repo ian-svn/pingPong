@@ -6,7 +6,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.ImageIcon;
 
-public class Barra {
+public class Barra{
     public int x = 50;
     public int y = 10;
     public String lado;

@@ -17,8 +17,8 @@ public class Pelota {
 	private final int altoEs=450, anchoEs=780-12;
 	private int velX=1;
 	private int velY=1;
-	private int puntaje1=0;
-	private int puntaje2=0;
+	public int puntaje1=0;
+	public int puntaje2=0;
 	
 	private String lado;
 
@@ -31,14 +31,12 @@ public class Pelota {
         mover();
     }
 	
-	public boolean gol1() {
-		puntaje1++;
-		return true;
+	public int getPuntos1() {
+		return puntaje1;
 	}
 	
-	public boolean gol2() {
-		puntaje2++;
-		return true;
+	public int getPuntos2() {
+		return puntaje2;
 	}
 	
 	private void mover() {
@@ -47,26 +45,25 @@ public class Pelota {
 		
 		if(x > anchoEs) {
 			velX = -velX;
-			if(velX<0) {
-				gol1();
-			}
+			puntaje1++;
 		}
 		if(y > altoEs) {
 			velY=-velY;
 		}
 		if(x < 0) {
 			velX = -velX;
-			gol2();
+			puntaje2++;
 		}
 		if(y < 0) {
 			velY=-velY;
 		}
-			
+		
+		
 	}
 	
 	public boolean choque1() {
 		Area areaBarraI = new Area(j.barraIzq.getBoundsBarra());
-		areaBarraI.intersect(getBoundsPelota());
+		//areaBarraI.intersect(getBoundsPelota());
 		return !areaBarraI.isEmpty();
 	}
 	
