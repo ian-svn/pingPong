@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Juego extends JPanel implements ActionListener {
+public class JuegoFacil extends JPanel implements ActionListener {
     private JFrame frames = new JFrame();
     Barra barraIzq = new Barra("izq");
     Barra barraDer = new Barra("der");
-    Pelota pelota;
+    Pelotita pelota;
     private Timer timer;
     private static int timeLeft = 300;
     private Timer pausaTimer;
@@ -33,8 +33,8 @@ public class Juego extends JPanel implements ActionListener {
     private Boolean tiempoFuera=false;
 
     static JFrame frame = new JFrame("Ping Pong");
-    static Juego game = new Juego();
-    public Juego() {
+    static JuegoFacil game = new JuegoFacil();
+    public JuegoFacil() {
         // Cargar la fuente aquí
         try {
             InputStream is = getClass().getResourceAsStream("/fuentes/PressStart2P-Regular.ttf");
@@ -67,7 +67,7 @@ public class Juego extends JPanel implements ActionListener {
             retroFontTitle = new Font("Monospaced", Font.PLAIN, 35); 
         }
         
-        pelota = new Pelota(barraIzq, barraDer);
+        pelota = new Pelotita(barraIzq, barraDer);
 
         addKeyListener(new KeyListener() {
             @Override
@@ -149,13 +149,12 @@ public class Juego extends JPanel implements ActionListener {
             g.setFont(win);
 
             String ganador = (pelota.getPuntos1()>pelota.getPuntos2()) ? "Azul" : "Rojo";
-            
+
             drawTextWithOutline(g, "¡El ganador es el jugador " + ganador + "! ", 40, 150, Color.BLACK, Color.WHITE);
 
             g.setFont(retro);
             drawTextWithOutline(g, "Presione la tecla 'R' para volver a jugar", 80, 396, Color.BLACK, Color.WHITE);
             drawTextWithOutline(g, "Presione la tecla 'ESC' para volver al menú", 75, 430, Color.BLACK, Color.WHITE);
-
             enPausa = true;
             if (!enPausa) {
                 pausaTimer = new Timer(PAUSA_TIEMPO, new ActionListener() {
@@ -176,6 +175,7 @@ public class Juego extends JPanel implements ActionListener {
         } else if(tiempoFuera) {
         	Font win = retroFont;
             g.setFont(win);
+            
             if(pelota.getPuntos1()>pelota.getPuntos2()) {
                 drawTextWithOutline(g, "¡El ganador es el Jugador Azul!" , 75, 150, Color.BLACK, Color.WHITE);
             } else if(pelota.getPuntos2()>pelota.getPuntos1()) {

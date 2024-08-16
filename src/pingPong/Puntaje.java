@@ -26,9 +26,9 @@ public class Puntaje {
 	
 	public void paint(Graphics g) {
         ImageIcon puntaje = new ImageIcon(getClass().getResource("/imagenes/pelota.png"));
-        g.drawImage(puntaje.getImage(), x, y, ACHO, ALTO, null);
+        g.drawImage(puntaje.getImage(), x, y, x, y, null);
     }
 	public Ellipse2D getBoundsPelota() {
-		return new Ellipse2D.Double(x,y+30,ACHO,ALTO);
+		return new Ellipse2D.Double(x,y+30,x,y);
 	}
 }
