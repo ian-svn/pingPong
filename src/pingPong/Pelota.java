@@ -86,7 +86,7 @@ public class Pelota {
             }
             velX = -velX;
 
-            // Determinar en qué parte de la barra choca la pelota
+
             double relativeIntersectY = (barraIzqRect.getY() + barraIzqRect.getHeight()) - (y + ALTO / 2);
             double normalizedRelativeIntersectionY = (relativeIntersectY / (barraIzqRect.getHeight() / 2));
 
@@ -101,7 +101,6 @@ public class Pelota {
             }
             velX = -velX;
 
-            // Determinar en qué parte de la barra choca la pelota
             double relativeIntersectY = (barraDerRect.getY() + barraDerRect.getHeight()) - (y + ALTO / 2);
             double normalizedRelativeIntersectionY = (relativeIntersectY / (barraDerRect.getHeight() / 2));
 

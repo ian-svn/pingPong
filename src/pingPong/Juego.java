@@ -23,7 +23,7 @@ public class Juego extends JPanel implements ActionListener {
     Barra barraDer = new Barra("der");
     Pelota pelota;
     private Timer timer;
-    private static int timeLeft = 300;
+    private static int timeLeft = 150;
     private Timer pausaTimer;
     private boolean enPausa = false;
     private static final int PAUSA_TIEMPO = 3000; 
@@ -35,7 +35,7 @@ public class Juego extends JPanel implements ActionListener {
     static JFrame frame = new JFrame("Ping Pong");
     static Juego game = new Juego();
     public Juego() {
-        // Cargar la fuente aquí
+
         try {
             InputStream is = getClass().getResourceAsStream("/fuentes/PressStart2P-Regular.ttf");
             if (is == null) {
@@ -123,7 +123,7 @@ public class Juego extends JPanel implements ActionListener {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             pelota.setPuntos1(0);
             pelota.setPuntos2(0);
-            enPausa = false; // Reanuda el juego
+            enPausa = false; 
             repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -220,19 +220,19 @@ public class Juego extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!enPausa) {
-            barraIzq.mover(); // Mueve la barra izquierda
-            barraDer.mover(); // Mueve la barra derecha
-            pelota.mover(); // Mueve la pelota
+            barraIzq.mover(); 
+            barraDer.mover();
+            pelota.mover(); 
         }
         repaint();
     }
 
-    // Método auxiliar para dibujar texto con contorno
+
     private void drawTextWithOutline(Graphics g, String text, int x, int y, Color outlineColor, Color textColor) {
-        // Guarda el color original
+       
         Color originalColor = g.getColor();
 
-        // Dibuja el contorno
+
         g.setColor(outlineColor);
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -242,11 +242,11 @@ public class Juego extends JPanel implements ActionListener {
             }
         }
 
-        // Dibuja el texto principal
+
         g.setColor(textColor);
         g.drawString(text, x, y);
 
-        // Restaura el color original
+
         g.setColor(originalColor);
     }
 

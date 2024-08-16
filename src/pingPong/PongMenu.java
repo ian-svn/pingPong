@@ -31,6 +31,7 @@ public class PongMenu extends JFrame {
     private CustomButton btnNormalMode;
     private CustomButton btnHardMode;
     private CustomButton btnExit;
+    private Boolean visible=true;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -48,7 +49,7 @@ public class PongMenu extends JFrame {
     public PongMenu() {
         setTitle("PONG");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 850, 570);  // Tamaño de la ventana
+        setBounds(100, 100, 850, 570);
         setResizable(false);
         setLocationRelativeTo(null);
         
@@ -67,31 +68,33 @@ public class PongMenu extends JFrame {
             retroFont = new Font("Monospaced", Font.PLAIN, 24); 
         }
 
-        // Botón para modo fácil
+
         btnEasyMode = new CustomButton(" Modo Fácil ", retroFont);
         btnEasyMode.setBounds(245, 240, 350, 60);
         btnEasyMode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	JuegoFacil juego = new JuegoFacil(); 
-                juego.correr(); // Aquí puedes implementar el modo normal
+                juego.correr();
                 dispose();
+                visible=false;
             }
         });
         contentPane.add(btnEasyMode);
 
-        // Botón para modo normal
+
         btnNormalMode = new CustomButton("Modo Difícil", retroFont);
         btnNormalMode.setBounds(245, 320, 350, 60);
         btnNormalMode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Juego juego = new Juego(); 
-                juego.correr(); // Aquí puedes implementar el modo fácil
+                juego.correr();
                 dispose();
+                visible=false;
             }
         });
         contentPane.add(btnNormalMode);
 
-        // Botón para modo difícil
+
         btnHardMode = new CustomButton("Cerrar Juego", retroFont);
         btnHardMode.setBounds(245, 400, 350, 60);
         btnHardMode.addActionListener(new ActionListener() {
@@ -113,7 +116,7 @@ public class PongMenu extends JFrame {
             setBorderPainted(false);
             setOpaque(false);
             setForeground(Color.WHITE);
-        	setBorder(new LineBorder(new Color(0, 0, 0, 0), 4));  // Borde invisible inicial
+        	setBorder(new LineBorder(new Color(0, 0, 0, 0), 4));
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -124,7 +127,7 @@ public class PongMenu extends JFrame {
                 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                	setBorder(new LineBorder(new Color(0, 0, 0, 0), 4));  // Revertir al borde invisible
+                	setBorder(new LineBorder(new Color(0, 0, 0, 0), 4)); 
                 	setBorderPainted(true);
                 }
             });
@@ -132,21 +135,23 @@ public class PongMenu extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            drawTextWithOutline(g2d, getText(), getWidth()/12,getHeight()-getHeight()/3);
+        	if(visible) {
+        	    super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                drawTextWithOutline(g2d, getText(), getWidth()/12,getHeight()-getHeight()/3);
+        	}
         }
 
         private void drawTextWithOutline(Graphics2D g, String text, int x, int y) {
             g.setFont(font);
-            g.setColor(Color.BLACK);  // Color del contorno
+            g.setColor(Color.BLACK); 
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     g.drawString(text, x + i, y + j);
                 }
             }
-            g.setColor(Color.WHITE);  // Color del texto
+            g.setColor(Color.WHITE);  
             g.drawString(text, x, y);
         }
     }
@@ -156,14 +161,14 @@ public class PongMenu extends JFrame {
         private ArrayList<Particle> particles;
         private Random random;
         private Font titleFont;
-        private BufferedImage backgroundImage;  // Imagen de fondo
+        private BufferedImage backgroundImage; 
 
         public CustomPanel() {
-            setBackground(Color.WHITE);  // Cambiar a fondo blanco
+            setBackground(Color.WHITE);  
             particles = new ArrayList<>();
             random = new Random();
 
-            // Cargar la imagen de fondo
+
             try {
                 InputStream is = getClass().getResourceAsStream("/recursos/imagenes/fondomenu1.png");
                 if (is == null) {
@@ -179,13 +184,12 @@ public class PongMenu extends JFrame {
                 if (is == null) {
                     throw new IOException("Fuente no encontrada");
                 }
-                titleFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(64f); // Tamaño más grande para el título
+                titleFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(64f);
             } catch (FontFormatException | IOException e) {
                 e.printStackTrace();
                 titleFont = new Font("Monospaced", Font.PLAIN, 64);
             }
 
-            // Crear partículas iniciales
             for (int i = 0; i < 100; i++) {
                 particles.add(new Particle(random.nextInt(800), random.nextInt(520)));
             }
@@ -207,32 +211,34 @@ public class PongMenu extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            if (backgroundImage != null) {
-                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
-            }
-
-            for (Particle p : particles) {
-                p.draw(g2d);
-            }
-
-            String title = "PONG";
-            int titleWidth = g2d.getFontMetrics(titleFont).stringWidth(title);
-            int titleX = (getWidth() - titleWidth) / 2;
-            drawGlowEffect(g2d, title, titleX, 100);  // Resplandor negro
-            g2d.setColor(Color.WHITE);  // Cambiar a color blanco para el título
-            g2d.setFont(titleFont);
-            g2d.drawString(title, titleX, 100);
+        	if(visible) {
+	            super.paintComponent(g);
+	            Graphics2D g2d = (Graphics2D) g;
+	            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	
+	            if (backgroundImage != null) {
+	                g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+	            }
+	
+	            for (Particle p : particles) {
+	                p.draw(g2d);
+	            }
+	
+	            String title = "PONG";
+	            int titleWidth = g2d.getFontMetrics(titleFont).stringWidth(title);
+	            int titleX = (getWidth() - titleWidth) / 2;
+	            drawGlowEffect(g2d, title, titleX, 100); 
+	            g2d.setColor(Color.WHITE);
+	            g2d.setFont(titleFont);
+	            g2d.drawString(title, titleX, 100);
+        	}
         }
 
         private void drawGlowEffect(Graphics2D g, String text, int x, int y) {
             g.setFont(titleFont);
-            // Incrementar el número de capas y reducir la transparencia para mayor intensidad
+
             for (int i = 10; i > 0; i--) {
-                g.setColor(new Color(0,0,0,25));  // Resplandor negro más intenso
+                g.setColor(new Color(0,0,0,25)); 
                 g.drawString(text, x - i, y - i);
                 g.drawString(text, x + i, y + i);
                 g.drawString(text, x - i, y + i);
@@ -289,5 +295,9 @@ public class PongMenu extends JFrame {
                 }
             }
         });
+    }
+    
+    public void setVisible(Boolean visible) {
+    	this.visible = visible;
     }
 }

@@ -12,7 +12,7 @@ public class Barra {
     public int y = 10+50;
     public String lado;
 
-    // Variables de control para el movimiento continuo
+
     private boolean wPressed = false;
     private boolean sPressed = false;
     private boolean upPressed = false;
@@ -45,7 +45,7 @@ public class Barra {
     }
 
     public void mover() {
-        int velocidad = 5; // Velocidad más baja para movimiento continuo
+        int velocidad = 5; 
 
         if (wPressed && y > 60 && lado.equals("izq")) {
             y -= velocidad;
