@@ -19,7 +19,8 @@ public class Barra {
     private boolean downPressed = false;
 
     public Barra(String lado) {
-        if (lado.equals("izq")) {
+        this.lado = lado;
+    	if (lado.equals("izq")) {
             x = 75;
     		y=150;
             
@@ -27,7 +28,6 @@ public class Barra {
             x = 750;
     		y=300;
         }
-        this.lado = lado;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -60,11 +60,15 @@ public class Barra {
             y += velocidad;
         }
     }
+    
+
+	ImageIcon barra;
 
     public void paint(Graphics g) {
-    	ImageIcon barra;
     	if(lado=="der") {
     		barra = new ImageIcon(getClass().getResource("/imagenes/barraDer.png"));
+    	} else if(lado=="izq"){
+    		barra = new ImageIcon(getClass().getResource("/imagenes/barra.png"));
     	} else {
     		barra = new ImageIcon(getClass().getResource("/imagenes/barra.png"));
     	}
@@ -73,5 +77,34 @@ public class Barra {
 
     public Rectangle2D getBoundsBarra() {
         return new Rectangle2D.Double(x, y, 13, 70);
+    }
+    
+    public void resetAll(String lado) {
+    	this.lado=lado;
+    	if (lado.equals("izq")) {
+            x = 75;
+    		y=150;
+            
+        } else if (lado.equals("der")) {
+            x = 750;
+    		y=300;
+        }
+    }
+    
+    public void reset() {
+    	if (lado.equals("izq")) {
+    		y=150;
+            
+        } else if (lado.equals("der")) {
+    		y=300;
+        }
+    }
+    
+    public void setLado(String lado) { 
+    	this.lado = lado;
+    }
+    
+    public String getLado() {
+    	return lado;
     }
 }

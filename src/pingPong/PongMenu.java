@@ -32,7 +32,9 @@ public class PongMenu extends JFrame {
     private CustomButton btnHardMode;
     private CustomButton btnExit;
     private Boolean visible=true;
-
+    private Juego juegoD;
+    private Juego juegoF;
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -47,6 +49,10 @@ public class PongMenu extends JFrame {
     }
     
     public PongMenu() {
+
+        juegoF = new Juego(this, "Facil");
+        juegoD = new Juego(this, "Dificil");
+        
         setTitle("PONG");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 850, 570);
@@ -69,25 +75,13 @@ public class PongMenu extends JFrame {
         }
 
 
-        btnEasyMode = new CustomButton(" Modo Fácil ", retroFont);
-        btnEasyMode.setBounds(245, 240, 350, 60);
-        btnEasyMode.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	JuegoFacil juego = new JuegoFacil(); 
-                juego.correr();
-                dispose();
-                visible=false;
-            }
-        });
-        contentPane.add(btnEasyMode);
-
-
-        btnNormalMode = new CustomButton("Modo Difícil", retroFont);
-        btnNormalMode.setBounds(245, 320, 350, 60);
+        btnNormalMode = new CustomButton("Empezar Juego", retroFont);
+        btnNormalMode.setBounds(232,280, 380, 60);
         btnNormalMode.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Juego juego = new Juego(); 
-                juego.correr();
+            public void actionPerformed(ActionEvent e) { 
+                juegoD.correr();
+                juegoD.iniciar();
+                setVisible(false);
                 dispose();
                 visible=false;
             }
@@ -96,7 +90,7 @@ public class PongMenu extends JFrame {
 
 
         btnHardMode = new CustomButton("Cerrar Juego", retroFont);
-        btnHardMode.setBounds(245, 400, 350, 60);
+        btnHardMode.setBounds(245, 380, 350, 60);
         btnHardMode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.exit(0);
@@ -135,6 +129,7 @@ public class PongMenu extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+        	
         	if(visible) {
         	    super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
@@ -285,19 +280,10 @@ public class PongMenu extends JFrame {
     }
     
     void correr() {
-    	EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    PongMenu frame = new PongMenu();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    	setVisible(true);
     }
     
-    public void setVisible(Boolean visible) {
+    public void setVisib(Boolean visible) {
     	this.visible = visible;
     }
 }

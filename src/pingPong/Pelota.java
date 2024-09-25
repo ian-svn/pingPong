@@ -22,10 +22,14 @@ public class Pelota {
     private Barra barraIzq;
     private Barra barraDer;
     private Font retroFont;
-
-    public Pelota(Barra barraIzq, Barra barraDer) {
+    private boolean pausar=false;
+    private String modo;
+    private int rebotes=0;
+    
+    public Pelota(Barra barraIzq, Barra barraDer, String modo) {
         this.barraIzq = barraIzq;
         this.barraDer = barraDer;
+        this.modo = modo;
     }
 
     public void paint(Graphics g) {
@@ -49,65 +53,166 @@ public class Pelota {
         this.puntaje2 = puntaje2;
     }
 
+    public void reset() {
+    	x=375;
+    	y=200;
+    	
+    	
+    	velX=5;
+    	velY=5;
+    	//rebotes=0;
+    }
+    
     public void mover() {
-        x += velX;
-        y += velY;
+    	if(modo=="Dificil") {
+	    		
+	        x += velX;
+	        y += velY;
+	
+	
+	
+	        if (y > altoEs || y < 50) {
+	            velY = -velY;
+	        }
+	
+	        Rectangle2D pelotaRect = new Rectangle2D.Double(x, y, ACHO, ALTO);
+	
+	        Rectangle2D barraIzqRect = barraIzq.getBoundsBarra();
+	        if (pelotaRect.intersects(barraIzqRect)) {
+	            if (velX < 0) {
+	                x = (int) (barraIzqRect.getMaxX());
+	            }
+	            velX = -velX;
+	
+	            
+	            double relativeIntersectY = (barraIzqRect.getY() + barraIzqRect.getHeight()) - (y + ALTO / 2);
+	            double normalizedRelativeIntersectionY = (relativeIntersectY / (barraIzqRect.getHeight() / 2));
+	
+	            velY = (int) (-6 * normalizedRelativeIntersectionY);
+	            
 
-        if (x > anchoEs) {
-            x = 385;
-            y = 228;
-            velX = -velX;
-            puntaje1++;
+	            velX += (velX > 0) ? 1 : -1;
+	            velY += (velY > 0) ? 1 : -1;
+	            
+	            //rebotes++;
+	        }
+	
+	        Rectangle2D barraDerRect = barraDer.getBoundsBarra();
+	        if (pelotaRect.intersects(barraDerRect)) {
+	
+	            if (velX > 0) {
+	                x = (int) (barraDerRect.getMinX() - ACHO);
+	            }
+	            velX = -velX;
+	
+	            double relativeIntersectY = (barraDerRect.getY() + barraDerRect.getHeight()) - (y + ALTO / 2);
+	            double normalizedRelativeIntersectionY = (relativeIntersectY / (barraDerRect.getHeight() / 2));
+	
+	            velY = (int) (-6 * normalizedRelativeIntersectionY);
+	
+	            velX += (velX > 0) ? 1 : -1;
+	            velY += (velY > 0) ? 1 : -1;
+	            //rebotes++;
+	        }
+            //System.out.println("Dificil");
+	        if (x > anchoEs) {
+	            x = 385;
+	            y = 228;
+	            puntaje1++;
+	            pausar();
+	            velX=-velX;
+	            velY=-velY;
+	            
+	        }
 
-            velX = (velX > 0) ? 6 : -6;
-            velY = (velY > 0) ? 6 : -6;
-        }
+	        if (x < 55) {
+	            x = 385;
+	            y = 288;
+	            puntaje2++;
+	            pausar();
+	        }
+    	}
+    	/*
+    	else if(modo=="Facil"){
 
-        if (x < 55) {
-            x = 385;
-            y = 228;
-            velX = -velX;
-            puntaje2++;
+            x += velX;
+            y += velY;
 
-            velX = (velX > 0) ? 6 : -6;
-            velY = (velY > 0) ? 6 : -6;
-        }
-
-        if (y > altoEs || y < 50) {
-            velY = -velY;
-        }
-
-        Rectangle2D pelotaRect = new Rectangle2D.Double(x, y, ACHO, ALTO);
-
-        Rectangle2D barraIzqRect = barraIzq.getBoundsBarra();
-        if (pelotaRect.intersects(barraIzqRect)) {
-            if (velX < 0) {
-                x = (int) (barraIzqRect.getMaxX());
+            if (x > anchoEs) {
+                x = 385;
+                y = 228;
+                velX = -velX;
+                puntaje1++;
+                pausar();
+                
+                velX = (velX > 0) ? 6 : -6;
+                velY = (velY > 0) ? 6 : -6;
             }
-            velX = -velX;
 
-
-            double relativeIntersectY = (barraIzqRect.getY() + barraIzqRect.getHeight()) - (y + ALTO / 2);
-            double normalizedRelativeIntersectionY = (relativeIntersectY / (barraIzqRect.getHeight() / 2));
-
-            velY = (int) (-6 * normalizedRelativeIntersectionY);
-        }
-
-        Rectangle2D barraDerRect = barraDer.getBoundsBarra();
-        if (pelotaRect.intersects(barraDerRect)) {
-
-            if (velX > 0) {
-                x = (int) (barraDerRect.getMinX() - ACHO);
+            if (x < 55) {
+                x = 385;
+                y = 228;
+                velX = -velX;
+                puntaje2++;
+                pausar();
+                
+                velX = (velX > 0) ? 6 : -6;
+                velY = (velY > 0) ? 6 : -6;
             }
-            velX = -velX;
 
-            double relativeIntersectY = (barraDerRect.getY() + barraDerRect.getHeight()) - (y + ALTO / 2);
-            double normalizedRelativeIntersectionY = (relativeIntersectY / (barraDerRect.getHeight() / 2));
+            if (y > altoEs || y < 50) {
+                velY = -velY;
+            }
 
-            velY = (int) (-6 * normalizedRelativeIntersectionY);
+            Rectangle2D pelotaRect = new Rectangle2D.Double(x, y, ACHO, ALTO);
 
-            velX += (velX > 0) ? 1 : -1;
-            velY += (velY > 0) ? 1 : -1;
-        }
+            Rectangle2D barraIzqRect = barraIzq.getBoundsBarra();
+            if (pelotaRect.intersects(barraIzqRect)) {
+                if (velX < 0) {
+                    x = (int) (barraIzqRect.getMaxX());
+                }
+                velX = -velX;
+
+    		
+    		if (pelotaRect.intersects(barraIzqRect)) {
+    		    if (velX < 0) {
+    		        x = (int) (barraIzqRect.getMaxX()); 
+    		    }
+    		    velX = -velX;
+    		}
+    		
+    		Rectangle2D barraDerRect = barraDer.getBoundsBarra();
+    		if (pelotaRect.intersects(barraDerRect)) {
+    		
+    		    if (velX > 0) {
+    		        x = (int) (barraDerRect.getMinX() - ACHO); 
+    		    }
+    		    velX = -velX;
+    		    
+    		
+    		    velX += (velX>0) ? 1 : -1;
+    		    velY += (velY>0) ? 1 : -1;
+    			}    
+            }*/
+
+    }
+    
+    
+    public void pausar() {
+    	pausar=true;
+    }
+    
+    public void despausar() {
+    	pausar=false;
+    }
+    
+    public boolean getPausa() {
+    	return pausar;
+    }
+    
+    public void invertirPuntos() {
+    	int aux=getPuntos2();
+    	setPuntos2(getPuntos1());
+    	setPuntos1(aux);
     }
 }
